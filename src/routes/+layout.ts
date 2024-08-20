@@ -7,6 +7,8 @@ export const ssr = false;
 export const load: LayoutLoad = async ({ fetch, data, depends }) => {
     depends('supabase:auth');
 
+    let session = null; // Declare session variable with an initial value of null
+
     const supabase = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
         global: {
             fetch
@@ -37,10 +39,11 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
     });
 
     try {
-        const { data: { session } } = await supabase.auth.getSession();
-        return { supabase, session };
+        const { data: { session: retrievedSession } } = await supabase.auth.getSession();
+        session = retrievedSession;
     } catch (error) {
         console.error("Error fetching session:", error);
-        return { supabase, session: null };
     }
+
+    return { supabase, session };
 };

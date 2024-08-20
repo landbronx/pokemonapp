@@ -2,8 +2,8 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { _toLeftRightCenter } from 'chart.js/helpers';
 	import '../app.css';
-	import { Auth } from '@supabase/auth-ui-svelte';
-    export let data;
+
+	    export let data;
 
     let { supabase, session } = data;
     $: ({ supabase, session } = data);
